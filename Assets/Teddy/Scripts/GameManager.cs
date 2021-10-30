@@ -12,19 +12,17 @@ using UnityEngine;
         [SerializeField]
         public GameObject cannonGameObject;
         public Camera camera;
-        public float ballCannonDistance;
-        public bool isShot;
         public float force;
-        public float lastMouseX;
         public float rotSpeed;
         public GameObject dummiesGameObject;
-        public GameObject uiGameObject;
         float horiRotation;
         float vertRotation;
         public Cannon c;
         public UnityEngine.UI.Text txtScore;
         public UnityEngine.UI.Text txtLevel;
         public GameObject panelMenu;
+        
+        public GameObject[] levels;
         
         private void Start()
         {
@@ -36,7 +34,7 @@ using UnityEngine;
             showMenu(true);
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             //only get input if menu is not active
             if (!panelMenu.activeSelf)
@@ -67,10 +65,8 @@ using UnityEngine;
             {
                 totalScore += d.currentScore;
             }
+
             return totalScore;
-        }
-        private void Update()
-        {
         }
 
         //resets the position and aim of the canon
@@ -143,5 +139,19 @@ using UnityEngine;
         public void showMenu(bool show)
         {
             panelMenu.SetActive(show);
+        }
+
+        /// <summary>
+        /// level selection triggered by the dropdown
+        /// </summary>
+        /// <param name="choice"></param>
+        public void setLevel(int choice)
+        {
+            Debug.Log($"choice is {choice}");
+            var levelPos = new Vector3(3.97f, 0, 0);
+            var otherlevel = (choice + 1) % 2;
+            levels[choice].transform.position = levelPos;
+            levels[choice].SetActive(true);
+            levels[otherlevel].SetActive(false);
         }
     }
